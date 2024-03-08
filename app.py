@@ -1,14 +1,30 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+# 导入必要的库
+import gradio as gr
 from langchain.vectorstores import Chroma
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
-import os
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
+import torch
+from modelscope import snapshot_download, AutoModel, AutoTokenizer
+from openxlab.model import download
+import os
 
 def load_chain():
+    model_dir = snapshot_download("jayhust/internlm2-chat-1_8b", revision="master")
+    #llm_model_path = "internlm2-chat-1_8b"
+    #download(model_repo="OpenLMLab/internlm2-chat-1.8b", model_name="internlm2-chat-1.8b")
+
+    os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+    # 下载模型
+    os.system('huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+    
     # 加载问答链
     # 定义 Embeddings
-    embeddings = HuggingFaceEmbeddings(model_name="/root/dangshi/model/sentence-transformer")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 
     # 向量数据库持久化路径
     persist_directory = 'data_base/vector_db/chroma'
@@ -19,62 +35,66 @@ def load_chain():
         embedding_function=embeddings
     )
 
-    # 加载自定义 LLM
-    llm = InternLM_LLM(model_path = "/root/dangshi/model/Shanghai_AI_Laboratory/internlm2-chat-7b")
+    #model_dir = "/home/xlab-app-center/.cache/model/internlm2-chat-1.8b"
 
-    # 定义一个 Prompt Template
-    template = """使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答
-    案。尽量使答案简明扼要。总是在回答的最后说“谢谢你的提问！”。
-    {context}
+    llm = InternLM_LLM(model_path = model_dir)
+
+    template = """使用以下上下文来回答用户的问题。如果你不知道答案，就说你不知道。总是使用中文回答。
     问题: {question}
+    可参考的上下文：
+    ···
+    {context}
+    ···
+    如果给定的上下文无法让你做出回答，请回答你不知道。
     有用的回答:"""
 
-    QA_CHAIN_PROMPT = PromptTemplate(input_variables=["context","question"],template=template)
+    QA_CHAIN_PROMPT = PromptTemplate(input_variables=["context","question"],
+                                    template=template)
 
     # 运行 chain
-    qa_chain = RetrievalQA.from_chain_type(llm,retriever=vectordb.as_retriever(),return_source_documents=True,chain_type_kwargs={"prompt":QA_CHAIN_PROMPT})
+    from langchain.chains import RetrievalQA
+
+    qa_chain = RetrievalQA.from_chain_type(llm,
+                                        retriever=vectordb.as_retriever(),
+                                        return_source_documents=True,
+                                        chain_type_kwargs={"prompt":QA_CHAIN_PROMPT})
     
     return qa_chain
 
 class Model_center():
     """
-    存储检索问答链的对象 
+    存储问答 Chain 的对象 
     """
     def __init__(self):
-        # 构造函数，加载检索问答链
         self.chain = load_chain()
 
     def qa_chain_self_answer(self, question: str, chat_history: list = []):
         """
-        调用问答链进行回答
+        调用不带历史记录的问答链进行回答
         """
         if question == None or len(question) < 1:
             return "", chat_history
         try:
             chat_history.append(
                 (question, self.chain({"query": question})["result"]))
-            # 将问答结果直接附加到问答历史中，Gradio 会将其展示出来
             return "", chat_history
         except Exception as e:
             return e, chat_history
 
-import gradio as gr
 
-# 实例化核心功能对象
 model_center = Model_center()
-# 创建一个 Web 界面
+
 block = gr.Blocks()
 with block as demo:
     with gr.Row(equal_height=True):   
         with gr.Column(scale=15):
-            # 展示的页面标题
             gr.Markdown("""<h1><center>InternLM</center></h1>
                 <center>书生浦语</center>
                 """)
+        # gr.Image(value=LOGO_PATH, scale=1, min_width=10,show_label=False, show_download_button=False)
 
     with gr.Row():
         with gr.Column(scale=4):
-            # 创建一个聊天机器人对象
             chatbot = gr.Chatbot(height=450, show_copy_button=True)
             # 创建一个文本框组件，用于输入 prompt。
             msg = gr.Textbox(label="Prompt/问题")
@@ -90,12 +110,14 @@ with block as demo:
         # 设置按钮的点击事件。当点击时，调用上面定义的 qa_chain_self_answer 函数，并传入用户的消息和聊天历史记录，然后更新文本框和聊天机器人组件。
         db_wo_his_btn.click(model_center.qa_chain_self_answer, inputs=[
                             msg, chatbot], outputs=[msg, chatbot])
-
+        
     gr.Markdown("""提醒：<br>
     1. 初始化数据库时间可能较长，请耐心等待。
     2. 使用中如果出现异常，将会在文本输入框进行展示，请不要惊慌。 <br>
     """)
+# threads to consume the request
 gr.close_all()
+# 启动新的 Gradio 应用，设置分享功能为 True，并使用环境变量 PORT1 指定服务器端口。
+# demo.launch(share=True, server_port=int(os.environ['PORT1']))
 # 直接启动
 demo.launch()
-
