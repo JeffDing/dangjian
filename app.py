@@ -10,13 +10,10 @@ from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
 import torch
 from modelscope import snapshot_download, AutoModel, AutoTokenizer
-from openxlab.model import download
 import os
 
 def load_chain():
-    model_dir = snapshot_download("jayhust/internlm2-chat-1_8b", revision="master")
-    #llm_model_path = "internlm2-chat-1_8b"
-    #download(model_repo="OpenLMLab/internlm2-chat-1.8b", model_name="internlm2-chat-1.8b")
+    model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm-xcomposer-7b-4bit", revision="master")
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
@@ -34,8 +31,6 @@ def load_chain():
         persist_directory=persist_directory,  # 允许我们将persist_directory目录保存到磁盘上
         embedding_function=embeddings
     )
-
-    #model_dir = "/home/xlab-app-center/.cache/model/internlm2-chat-1.8b"
 
     llm = InternLM_LLM(model_path = model_dir)
 
