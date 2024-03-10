@@ -17,11 +17,11 @@ def load_chain():
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
-    os.system('huggingface-cli download --resume-download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+    os.system('huggingface-cli download --resume-download --local-dir-use-symlinks False sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir ./sentence-transformer')
     
     # 加载问答链
     # 定义 Embeddings
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="./sentence-transformer")
 
     # 向量数据库持久化路径
     persist_directory = 'data_base/vector_db/chroma'
