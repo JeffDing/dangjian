@@ -13,7 +13,7 @@ from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 
 def load_chain():
-    model_dir = snapshot_download("JeffDing/dangwu_1.8", revision="master")
+    model_dir = snapshot_download("JeffDing/dangwu_1_8b", revision="master")
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
