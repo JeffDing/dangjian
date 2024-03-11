@@ -84,7 +84,7 @@ with block as demo:
     with gr.Row(equal_height=True):   
         with gr.Column(scale=15):
             gr.Markdown("""<h1><center>InternLM</center></h1>
-                <center>书生浦语</center>
+                <center>党务知识问答</center>
                 """)
         # gr.Image(value=LOGO_PATH, scale=1, min_width=10,show_label=False, show_download_button=False)
 
