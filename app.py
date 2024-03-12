@@ -13,10 +13,7 @@ from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 
 def load_chain():
-    #model_dir = snapshot_download("JeffDing/dangwu_1_8b", revision="master")
-
-    from openxlab.dataset import get
-    get(dataset_repo='JeffDing/dangwu_1_8b', target_path='./dangwu_1_8b')
+    model_dir = snapshot_download("JeffDing/dangwu_1_8b", revision="master")
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
@@ -35,7 +32,6 @@ def load_chain():
         embedding_function=embeddings
     )
 
-    model_dir = './dangwu_1_8b'
     llm = InternLM_LLM(model_path = model_dir)
 
     template = """使用以下上下文来回答用户的问题。如果你不知道答案，就说你不知道。总是使用中文回答。
