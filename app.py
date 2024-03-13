@@ -12,11 +12,6 @@ import torch
 # from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 
-
-tokenizer = AutoTokenizer.from_pretrained(base_path,trust_remote_code=True)
-model = AutoModelForCausalLM.from_pretrained(base_path,trust_remote_code=True, torch_dtype=torch.float16).cuda()
-
-
 def load_chain():
     #model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
 
@@ -26,7 +21,7 @@ def load_chain():
     os.system('apt install git')
     os.system('apt install git-lfs')
     os.system(f'git clone https://code.openxlab.org.cn/OpenLMLab/internlm2-chat-1.8b.git {model_dir}')
-    os.system(f'cd {base_path} && git lfs pull')
+    os.system(f'cd {model_dir} && git lfs pull')
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
