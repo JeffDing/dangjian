@@ -16,7 +16,7 @@ def load_chain():
     #model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
 
     from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
-    model_dir = './internlm2-chat-1_8b'
+    model_dir = '/home/xlab-app-center/internlm2-chat-1_8b'
     # download repo to the base_path directory using git
     os.system('apt install git')
     os.system('apt install git-lfs')
