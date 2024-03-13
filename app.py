@@ -9,11 +9,23 @@ from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
 import torch
-from modelscope import snapshot_download, AutoModel, AutoTokenizer
+# from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 
+
+tokenizer = AutoTokenizer.from_pretrained(base_path,trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained(base_path,trust_remote_code=True, torch_dtype=torch.float16).cuda()
+
+
 def load_chain():
-    model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
+    #model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
+
+    from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
+    model_dir = './TCM_1_8B'
+    os.system('apt install git')
+    os.system('apt install git-lfs')
+    os.system(f'git clone https://code.openxlab.org.cn/JeffDing/TCM_1_8B.git {model_dir}')
+    os.system(f'cd {base_path} && git lfs pull')
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
