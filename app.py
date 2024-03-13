@@ -9,19 +9,11 @@ from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
 import torch
-# from modelscope import snapshot_download, AutoModel, AutoTokenizer
+from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 
 def load_chain():
-    #model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
-
-    from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
-    model_dir = '/home/xlab-app-center/internlm2-chat-1_8b'
-    # download repo to the base_path directory using git
-    os.system('apt install git')
-    os.system('apt install git-lfs')
-    os.system(f'git clone https://code.openxlab.org.cn/OpenLMLab/internlm2-chat-1.8b.git {model_dir}')
-    os.system(f'cd {model_dir} && git lfs pull')
+    model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
