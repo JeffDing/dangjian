@@ -26,7 +26,7 @@ def load_chain():
     os.system('apt install git')
     os.system('apt install git-lfs')
     os.system(f'git clone https://code.openxlab.org.cn/OpenLMLab/internlm2-chat-1.8b.git {model_dir}')
-os.system(f'cd {base_path} && git lfs pull')
+    os.system(f'cd {base_path} && git lfs pull')
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
