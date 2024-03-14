@@ -16,7 +16,7 @@ def load_chain():
     #model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
 
     from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
-    model_dir = './shizheng_work'
+    model_dir = "./shizheng_work"
     os.system('apt install git')
     os.system('apt install git-lfs')
     os.system(f'git clone https://code.openxlab.org.cn/JeffDing/shizheng_work.git {model_dir}')
