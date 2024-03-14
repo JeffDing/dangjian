@@ -15,7 +15,7 @@ import os
 def load_chain():
     #model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
 
-    model_dir = "./shizheng_work"
+    model_dir = "/home/xlab-app-center/shizheng_work"
     from openxlab.model import download
     download(model_repo='JeffDing/shizheng_work', output=model_dir)
     
