@@ -15,13 +15,13 @@ import os
 def load_chain():
     #model_dir = snapshot_download("Shanghai_AI_Laboratory/internlm2-chat-1_8b", revision="master")
 
-    model_dir = './shizheng_work'
+    model_dir = "./shizheng_work"
     # download repo to the base_path directory using git
-    os.system('apt install git')
-    os.system('apt install git-lfs')
-    os.system('git lfs install')
-    os.system(f'git clone https://code.openxlab.org.cn/JeffDing/shizheng_work.git {model_dir}')
-    os.system(f'cd {model_dir} && git lfs pull')
+    os.system("apt install git")
+    os.system("apt install git-lfs")
+    os.system("git lfs install")
+    os.system(f"git clone https://code.openxlab.org.cn/JeffDing/shizheng_work.git {model_dir}")
+    os.system(f"cd {model_dir} && git lfs pull")
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
