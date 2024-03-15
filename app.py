@@ -9,18 +9,18 @@ from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
 import torch
-from modelscope import snapshot_download, AutoModel, AutoTokenizer
+#from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 
 def load_chain():
-    model_dir = snapshot_download("JeffDing/shizhengwork", revision="master")
+    #model_dir = snapshot_download("JeffDing/shizhengwork", revision="master")
 
-    #model_dir = './shizhengwork'
+    model_dir = './shizhengwork'
     #os.system('apt install git')
     #os.system('apt install git-lfs')
     #os.system('git lfs install')
-    #os.system(f'git clone https://code.openxlab.org.cn/JeffDing/shizhengwork.git {model_dir}')
-    #os.system(f'cd {model_dir} && git lfs pull')
+    os.system(f'git clone https://code.openxlab.org.cn/JeffDing/shizhengwork.git {model_dir}')
+    os.system(f'cd {model_dir} && git lfs pull')
 
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
