@@ -9,11 +9,11 @@ from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from LLM import InternLM_LLM
 from langchain.prompts import PromptTemplate
 import torch
-#from modelscope import snapshot_download, AutoModel, AutoTokenizer
+from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 
 def load_chain():
-    #model_dir = snapshot_download("JeffDing/shizhengwork", revision="master")
+    model_dir = snapshot_download("JeffDing/shizhengwork", revision="master")
 
     #model_dir = './shizhengwork'
     #os.system('apt install git')
