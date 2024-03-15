@@ -18,6 +18,7 @@ def load_chain():
     model_dir = './shizhengwork'
     os.system('apt install git')
     os.system('apt install git-lfs')
+    os.system('git lfs install')
     os.system(f'git clone https://code.openxlab.org.cn/JeffDing/shizhengwork.git {model_dir}')
     os.system(f'cd {model_dir} && git lfs pull')
 
