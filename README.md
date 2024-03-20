@@ -9,8 +9,6 @@
 ## 主要操作
 通过是Xtuner对Internlm2-chat-1_8b使用数据集进行了微调，在微调完后的模型上使用langchain加载比赛的数据集以及一些自己收集的一些史料文档进行了知识库的建立后完成。展示采用的是gradio进行
 
-## 演示视频地址
-[https://www.bilibili.com/video/BV1tm411o7tw](https://www.bilibili.com/video/BV1tm411o7tw)
 
 ## 鸣谢
 * [上海人工智能实验室](https://www.shlab.org.cn/)
