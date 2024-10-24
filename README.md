@@ -12,6 +12,6 @@
 
 ## 鸣谢
 * [上海人工智能实验室](https://www.shlab.org.cn/)
-* [书生·浦语开源训练营](https://github.com/InternLM) 算力支持
+* [书生·浦语开源训练营]([https://github.com/InternLM](https://github.com/InternLM/Tutorial)) 算力支持
 * 来自OpenDataLab网站的党务问答数据集  
 地址：[https://opendatalab.com/政杰/PartyAffairsResponse](https://opendatalab.com/政杰/PartyAffairsResponse)
